@@ -1,7 +1,9 @@
 	package it.polito.tdp.spellchecker.controller;
 
 	import java.net.URL;
-	import java.util.ResourceBundle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 	import it.polito.tdp.spellchecker.model.*;
 	import javafx.event.ActionEvent;
 	import javafx.fxml.FXML;
@@ -56,10 +58,20 @@
 
 	    @FXML
 	    void doSpellCheck(ActionEvent event) {
-	    	String[] listaParole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
-	    	//comboBoxLanguage.getValue("Italian");
+	    	
+	    	model.loadDictionary(comboBoxLanguage.getValue());
+	    	
+	    	String[] parole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
+	    	
+	    	//CREO UNA LISTA  DI PAROLE/STRING
+	    	List<String> listaParole = new ArrayList();
+	    	for(String s: parole) {
+	    		listaParole.add(s);
+	    	}
+	    	//LA PASSO AL MODEL LA CICLO E CREO UNA LISTA DI RICHWORD  CON PAROLA-RISULTATO DEL CONTAINS
 	    	
 	    	
+	    	//Dopodichè stampi in wrongwords le parole false
 	    	
 	    	
 	    }

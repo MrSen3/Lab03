@@ -13,7 +13,7 @@ public class Dictionary {
 	public Dictionary() {
 
 }
-	public boolean loadDictionary(String language) {
+	public void loadDictionary(String language) {
 		
 	try {
 
@@ -30,12 +30,19 @@ public class Dictionary {
 		br.close();
 		System.out.println("Dizionario " + language + " loaded. Found " + dizionario.size() + " words.");
 		
-		return true;
 
 	} catch (IOException e) {
 		System.err.println("Errore nella lettura del file");
-		return false;
+		
 }
 	
 }
+	public List<RichWord> spellCheck(List<String> testo){
+		List<RichWord> dizionarioRich = new ArrayList();
+		for(String s: testo) {
+			dizionarioRich.add(new RichWord(s, dizionario.contains(s)));
+		}
+		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
+		return dizionarioRich;
+	} 
 }
