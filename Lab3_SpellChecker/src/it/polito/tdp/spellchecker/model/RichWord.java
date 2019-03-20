@@ -3,7 +3,7 @@ package it.polito.tdp.spellchecker.model;
 public class RichWord {
 	
 	private String word;
-	private boolean corretta;
+	private boolean corretta=false;
 	
 	public RichWord(String word, boolean corretta) {
 		this.word=word;

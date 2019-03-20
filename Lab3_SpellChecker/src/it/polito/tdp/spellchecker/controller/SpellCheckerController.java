@@ -16,7 +16,6 @@ import java.util.ResourceBundle;
 	public class SpellCheckerController {
 		
 		private Dictionary model;
-		//comboBoxLanguage.getItems().addAll("English", "Italian");
 		
 	    @FXML
 	    private ResourceBundle resources;
@@ -46,21 +45,18 @@ import java.util.ResourceBundle;
 	    private Label labelTimeCheck;
 
 	    @FXML
-	    void chooseLanguage(ActionEvent event) {
-	    	
-	    }
-
-	    @FXML
 	    void doClearText(ActionEvent event) {
 	    	txtToSpell.clear();
 	    	txtWrongWords.clear();
+	    	model.removeDictionary();
 	    }
 
 	    @FXML
 	    void doSpellCheck(ActionEvent event) {
-	    	
+	    	//Primo passo=carico il dizionario scelto
 	    	model.loadDictionary(comboBoxLanguage.getValue());
 	    	
+	    	//Ripulisco la stringa scritta nel textfield e la splitto
 	    	String[] parole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
 	    	
 	    	//CREO UNA LISTA  DI PAROLE/STRING
@@ -69,10 +65,15 @@ import java.util.ResourceBundle;
 	    		listaParole.add(s);
 	    	}
 	    	//LA PASSO AL MODEL LA CICLO E CREO UNA LISTA DI RICHWORD  CON PAROLA-RISULTATO DEL CONTAINS
-	    	
-	    	
+	    	List <RichWord> listaRichWord=model.spellCheck(listaParole);
+	    	List <String> paroleErrate = new ArrayList();
 	    	//Dopodichè stampi in wrongwords le parole false
-	    	
+	    	for(RichWord r: listaRichWord) {
+	    		if(!r.isCorretta()) {
+	    			paroleErrate.add(r.getWord());
+	    		}
+	    	}
+	    	txtWrongWords.appendText("Le parole errate sono: \n" +paroleErrate.toString());
 	    	
 	    }
 

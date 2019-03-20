@@ -11,8 +11,10 @@ public class Dictionary {
 	private String language;
 	
 	public Dictionary() {
-
+		this.dizionario=new ArrayList<String>();
 }
+	
+
 	public void loadDictionary(String language) {
 		
 	try {
@@ -22,10 +24,10 @@ public class Dictionary {
 		String word;
 
 		while ((word = br.readLine()) != null) {
-			dizionario.add(word.toLowerCase());
+			dizionario.add(word.toLowerCase().trim());
 		}
 
-		//Collections.sort(dizionario);
+		Collections.sort(dizionario);
 
 		br.close();
 		System.out.println("Dizionario " + language + " loaded. Found " + dizionario.size() + " words.");
@@ -37,6 +39,11 @@ public class Dictionary {
 }
 	
 }
+	/**
+	 * Controlla parola per parola se è corretta o meno e l'aggiunge alla lista delle parole controllate
+	 * @param testo lista parole in input
+	 * @return lista parole controllate con valori true o false
+	 */
 	public List<RichWord> spellCheck(List<String> testo){
 		List<RichWord> dizionarioRich = new ArrayList();
 		for(String s: testo) {
@@ -45,4 +52,8 @@ public class Dictionary {
 		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
 		return dizionarioRich;
 	} 
+	
+	public void removeDictionary() {
+		this.dizionario.clear();
+	}
 }
