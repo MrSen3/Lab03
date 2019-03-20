@@ -2,9 +2,8 @@
 
 	import java.net.URL;
 	import java.util.ResourceBundle;
-
-import it.polito.tdp.spellchecker.model.SpellCheckerModel;
-import javafx.event.ActionEvent;
+	import it.polito.tdp.spellchecker.model.*;
+	import javafx.event.ActionEvent;
 	import javafx.fxml.FXML;
 	import javafx.scene.control.Button;
 	import javafx.scene.control.ComboBox;
@@ -14,9 +13,8 @@ import javafx.event.ActionEvent;
 
 	public class SpellCheckerController {
 		
-		private SpellCheckerModel model;
-
-		//box.getItems().addAll("English","Italian")
+		private Dictionary model;
+		//comboBoxLanguage.getItems().addAll("English", "Italian");
 		
 	    @FXML
 	    private ResourceBundle resources;
@@ -25,8 +23,8 @@ import javafx.event.ActionEvent;
 	    private URL location;
 
 	    @FXML
-	    private ComboBox<?> comboBoxLanguage;
-
+	    private ComboBox<String> comboBoxLanguage;
+	    
 	    @FXML
 	    private TextField txtToSpell;
 
@@ -47,17 +45,23 @@ import javafx.event.ActionEvent;
 
 	    @FXML
 	    void chooseLanguage(ActionEvent event) {
-
+	    	
 	    }
 
 	    @FXML
 	    void doClearText(ActionEvent event) {
-
+	    	txtToSpell.clear();
+	    	txtWrongWords.clear();
 	    }
 
 	    @FXML
 	    void doSpellCheck(ActionEvent event) {
-
+	    	String[] listaParole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
+	    	//comboBoxLanguage.getValue("Italian");
+	    	
+	    	
+	    	
+	    	
 	    }
 
 	    @FXML
@@ -72,10 +76,9 @@ import javafx.event.ActionEvent;
 
 	    }
 
-		public void setModel(SpellCheckerModel model) {
-			// TODO Auto-generated method stub
+		public void setModel(Dictionary model) {
 			this.model=model;
-			
+			comboBoxLanguage.getItems().addAll("English", "Italian");
 		}
 	}
 
