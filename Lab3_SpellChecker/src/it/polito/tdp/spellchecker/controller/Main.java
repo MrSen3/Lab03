@@ -5,14 +5,22 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
+import it.polito.tdp.spellchecker.model.*;
 
 public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("SpellChecker.fxml"));
+			FXMLLoader loader = new FXMLLoader (getClass().getResource("SpellChecker.fxml"));
+			BorderPane root = (BorderPane)loader.load();
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
+			SpellCheckerModel model = new SpellCheckerModel();
+			SpellCheckerController controller = (SpellCheckerController)loader.getController();
+			
+			controller.setModel(model);
+			
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

@@ -2,7 +2,9 @@
 
 	import java.net.URL;
 	import java.util.ResourceBundle;
-	import javafx.event.ActionEvent;
+
+import it.polito.tdp.spellchecker.model.SpellCheckerModel;
+import javafx.event.ActionEvent;
 	import javafx.fxml.FXML;
 	import javafx.scene.control.Button;
 	import javafx.scene.control.ComboBox;
@@ -11,6 +13,8 @@
 	import javafx.scene.control.TextField;
 
 	public class SpellCheckerController {
+		
+		private SpellCheckerModel model;
 
 		//box.getItems().addAll("English","Italian")
 		
@@ -67,6 +71,12 @@
 	        assert labelTimeCheck != null : "fx:id=\"labelTimeCheck\" was not injected: check your FXML file 'SpellChecker.fxml'.";
 
 	    }
+
+		public void setModel(SpellCheckerModel model) {
+			// TODO Auto-generated method stub
+			this.model=model;
+			
+		}
 	}
 
 
