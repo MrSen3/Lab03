@@ -12,9 +12,8 @@ public class Dictionary {
 	
 	public Dictionary() {
 		this.dizionario=new ArrayList<String>();
-}
+	}
 	
-
 	public void loadDictionary(String language) {
 		
 	try {
@@ -31,18 +30,16 @@ public class Dictionary {
 
 		br.close();
 		System.out.println("Dizionario " + language + " loaded. Found " + dizionario.size() + " words.");
-		
 
 	} catch (IOException e) {
 		System.err.println("Errore nella lettura del file");
-		
+	}
 }
 	
-}
 	/**
 	 * Controlla parola per parola se è corretta o meno e l'aggiunge alla lista delle parole controllate
 	 * @param testo lista parole in input
-	 * @return lista parole controllate con valori true o false
+	 * @return lista richword da controllare con valori true o false
 	 */
 	public List<RichWord> spellCheck(List<String> testo){
 		List<RichWord> dizionarioRich = new ArrayList();

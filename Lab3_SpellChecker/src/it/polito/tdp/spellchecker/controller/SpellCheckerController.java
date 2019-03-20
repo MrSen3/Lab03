@@ -53,6 +53,9 @@ import java.util.ResourceBundle;
 
 	    @FXML
 	    void doSpellCheck(ActionEvent event) {
+	    	long start = System.nanoTime();
+	    	int errori = 0;
+	    	
 	    	//Primo passo=carico il dizionario scelto
 	    	model.loadDictionary(comboBoxLanguage.getValue());
 	    	
@@ -71,9 +74,15 @@ import java.util.ResourceBundle;
 	    	for(RichWord r: listaRichWord) {
 	    		if(!r.isCorretta()) {
 	    			paroleErrate.add(r.getWord());
+	    			errori++;
 	    		}
 	    	}
 	    	txtWrongWords.appendText("Le parole errate sono: \n" +paroleErrate.toString());
+	    	
+	    	//VALUTAZIONE DEI TEMPI
+	    	long time = (System.nanoTime()-start)/1000000000;
+	    	labelTimeCheck.setText("Spell check completed in " +time+" seconds");
+	    	labelErrors.setText("The text contains " +errori+ " errors");
 	    	
 	    }
 
