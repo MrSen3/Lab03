@@ -53,20 +53,39 @@ import java.util.ResourceBundle;
 
 	    @FXML
 	    void doSpellCheck(ActionEvent event) {
-	    	long start = System.nanoTime();
+	    	
 	    	int errori = 0;
 	    	
 	    	//Primo passo=carico il dizionario scelto
-	    	model.loadDictionary(comboBoxLanguage.getValue());
+	    	if (comboBoxLanguage.getValue()!=null)
+	    		model.loadDictionary(comboBoxLanguage.getValue());
+	    	//Controllo sulla scelta della lingua
+	    	else {
+	    		txtToSpell.clear();
+		    	txtWrongWords.clear();
+		    	model.removeDictionary();
+	    		txtWrongWords.appendText("Selezionare una lingua");
+	    		return;
+	    	}
 	    	
 	    	//Ripulisco la stringa scritta nel textfield e la splitto
 	    	String[] parole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
-	    	
 	    	//CREO UNA LISTA  DI PAROLE/STRING
 	    	List<String> listaParole = new ArrayList();
 	    	for(String s: parole) {
-	    		listaParole.add(s);
+	    		s.replaceAll(" ", "");
+	    		if(!s.isEmpty()) {
+	    			listaParole.add(s);}
 	    	}
+	    	
+	    	if (listaParole.size()==0) {
+	    		txtWrongWords.clear();
+	    		txtWrongWords.appendText("Scrivere delle parole separate da uno spazio nell'apposito spazio!");
+	    	}
+	    		
+	    	
+	    	
+	    	long start = System.nanoTime();
 	    	//LA PASSO AL MODEL LA CICLO E CREO UNA LISTA DI RICHWORD  CON PAROLA-RISULTATO DEL CONTAINS
 	    	List <RichWord> listaRichWord=model.spellCheck(listaParole);
 	    	List <String> paroleErrate = new ArrayList();
@@ -77,11 +96,12 @@ import java.util.ResourceBundle;
 	    			errori++;
 	    		}
 	    	}
-	    	txtWrongWords.appendText("Le parole errate sono: \n" +paroleErrate.toString());
+	    	txtWrongWords.appendText("Le parole errate sono: \n" +paroleErrate.toString()+ "\n");
 	    	
 	    	//VALUTAZIONE DEI TEMPI
-	    	long time = (System.nanoTime()-start)/1000000000;
-	    	labelTimeCheck.setText("Spell check completed in " +time+" seconds");
+	    	long end = System.nanoTime();
+	    	
+	    	labelTimeCheck.setText("Spell check completed in " + (end - start) / 1E9 + " seconds");
 	    	labelErrors.setText("The text contains " +errori+ " errors");
 	    	
 	    }

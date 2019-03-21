@@ -57,7 +57,7 @@
             </TextArea>
             <HBox alignment="TOP_RIGHT" prefHeight="63.0" prefWidth="572.0">
                <children>
-                  <Label fx:id="labelErrors" prefHeight="21.0" prefWidth="181.0">
+                  <Label fx:id="labelErrors" prefHeight="21.0" prefWidth="181.0" textFill="RED">
                      <HBox.margin>
                         <Insets right="30.0" top="15.0" />
                      </HBox.margin>
@@ -80,7 +80,7 @@
       </Label>
    </top>
    <bottom>
-      <Label fx:id="labelTimeCheck" prefHeight="21.0" prefWidth="251.0" BorderPane.alignment="CENTER_LEFT">
+      <Label fx:id="labelTimeCheck" prefHeight="21.0" prefWidth="383.0" BorderPane.alignment="CENTER_LEFT">
          <BorderPane.margin>
             <Insets left="20.0" top="10.0" />
          </BorderPane.margin>

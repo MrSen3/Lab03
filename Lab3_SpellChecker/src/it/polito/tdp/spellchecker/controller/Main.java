@@ -13,7 +13,7 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader (getClass().getResource("SpellChecker.fxml"));
 			BorderPane root = (BorderPane)loader.load();
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
 			Dictionary model = new Dictionary();
