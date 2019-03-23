@@ -2,6 +2,7 @@
 
 	import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 	import it.polito.tdp.spellchecker.model.*;
@@ -48,6 +49,8 @@ import java.util.ResourceBundle;
 	    void doClearText(ActionEvent event) {
 	    	txtToSpell.clear();
 	    	txtWrongWords.clear();
+	    	labelErrors.setText("");
+	    	labelTimeCheck.setText("");
 	    	model.removeDictionary();
 	    }
 
@@ -70,8 +73,9 @@ import java.util.ResourceBundle;
 	    	
 	    	//Ripulisco la stringa scritta nel textfield e la splitto
 	    	String[] parole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
-	    	//CREO UNA LISTA  DI PAROLE/STRING
+	    	//CREO UN ARRAYLIST E UNA LINKEDLIST DI STRING
 	    	List<String> listaParole = new ArrayList();
+	    	
 	    	for(String s: parole) {
 	    		s.replaceAll(" ", "");
 	    		if(!s.isEmpty()) {
@@ -80,14 +84,14 @@ import java.util.ResourceBundle;
 	    	
 	    	if (listaParole.size()==0) {
 	    		txtWrongWords.clear();
-	    		txtWrongWords.appendText("Scrivere delle parole separate da uno spazio nell'apposito spazio!");
-	    	}
-	    		
-	    	
+	    		txtWrongWords.appendText("Scrivere delle parole separate da uno spazio nell'apposito spazio!\n");
+	    		return;
+	    	}	    	
 	    	
 	    	long start = System.nanoTime();
 	    	//LA PASSO AL MODEL LA CICLO E CREO UNA LISTA DI RICHWORD  CON PAROLA-RISULTATO DEL CONTAINS
-	    	List <RichWord> listaRichWord=model.spellCheck(listaParole);
+	    	//List <RichWord> listaRichWord=model.spellCheck(listaParole);
+	    	List <RichWord> listaRichWord=model.spellCheckLineare(listaParole);
 	    	List <String> paroleErrate = new ArrayList();
 	    	//Dopodichè stampi in wrongwords le parole false
 	    	for(RichWord r: listaRichWord) {
@@ -103,6 +107,14 @@ import java.util.ResourceBundle;
 	    	
 	    	labelTimeCheck.setText("Spell check completed in " + (end - start) / 1E9 + " seconds");
 	    	labelErrors.setText("The text contains " +errori+ " errors");
+	    	
+	    	List<String> listaParoleLinked = new LinkedList();
+	    	
+	    	for(String s: parole) {
+	    		s.replaceAll(" ", "");
+	    		if(!s.isEmpty()) {
+	    			listaParoleLinked.add(s);}
+	    	}
 	    	
 	    }
 

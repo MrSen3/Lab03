@@ -42,15 +42,51 @@ public class Dictionary {
 	 * @return lista richword da controllare con valori true o false
 	 */
 	public List<RichWord> spellCheck(List<String> testo){
-		List<RichWord> dizionarioRich = new ArrayList();
+		List<RichWord> dizionarioRich = new ArrayList<RichWord>();
 		for(String s: testo) {
+			//Aggiunge a dizionariorich una nuova richword composta da s e dall'esito della ricerca della parola all'interno del dizionario
 			dizionarioRich.add(new RichWord(s, dizionario.contains(s)));
 		}
 		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
 		return dizionarioRich;
 	} 
 	
+	public List<RichWord> spellCheckLineare(List<String> testo){
+		
+		List<RichWord> dizionarioRich = new ArrayList<RichWord>();
+		boolean corretta=false;
+		
+		for(String s: testo) {
+			corretta=false;
+			
+			for(String d: dizionario) {//scorro il dizionario a partire dalla prima parola
+				
+				if(d.equalsIgnoreCase(s)) {//equalsIgnoreCase confronta le due stringhe senza tener conto del maiuscolo/minuscolo
+					corretta=true;
+					break;
+				}
+			}
+			
+				dizionarioRich.add(new RichWord(s, corretta));
+			
+		}
+		
+		
+		return dizionarioRich;
+	}
+	
+	public List<RichWord> spellCheckDicotomico(List<String> testo){
+		List<RichWord> dizionarioRich = new ArrayList<RichWord>();
+		for(String s: testo) {
+			//Aggiunge a dizionariorich una nuova richword composta da s e dall'esito della ricerca della parola all'interno del dizionario
+			dizionarioRich.add(new RichWord(s, dizionario.contains(s)));
+		}
+		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
+		return dizionarioRich;
+	}
+	
 	public void removeDictionary() {
 		this.dizionario.clear();
 	}
+
 }
