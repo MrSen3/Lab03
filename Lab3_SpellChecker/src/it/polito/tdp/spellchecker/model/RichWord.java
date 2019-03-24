@@ -10,6 +10,12 @@ public class RichWord {
 		this.corretta=corretta;
 	}
 
+	public RichWord(String word) {
+		// TODO Auto-generated constructor stub
+		this.word=word;
+		this.corretta=false;
+	}
+
 	public String getWord() {
 		return word;
 	}

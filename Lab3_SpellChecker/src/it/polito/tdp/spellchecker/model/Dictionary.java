@@ -58,28 +58,51 @@ public class Dictionary {
 		
 		for(String s: testo) {
 			corretta=false;
-			
-			for(String d: dizionario) {//scorro il dizionario a partire dalla prima parola
-				
-				if(d.equalsIgnoreCase(s)) {//equalsIgnoreCase confronta le due stringhe senza tener conto del maiuscolo/minuscolo
+			//scorro il dizionario a partire dalla prima parola
+			for(String d: dizionario) {
+				//equalsIgnoreCase confronta le due stringhe senza tener conto del maiuscolo/minuscolo
+				if(d.equalsIgnoreCase(s)) {
 					corretta=true;
 					break;
 				}
 			}
 			
 				dizionarioRich.add(new RichWord(s, corretta));
-			
-		}
 		
+		}
 		
 		return dizionarioRich;
 	}
 	
 	public List<RichWord> spellCheckDicotomico(List<String> testo){
 		List<RichWord> dizionarioRich = new ArrayList<RichWord>();
+		int inizio=0;
+		int fine=dizionario.size();
+		int meta=fine-inizio;		
+		
 		for(String s: testo) {
-			//Aggiunge a dizionariorich una nuova richword composta da s e dall'esito della ricerca della parola all'interno del dizionario
-			dizionarioRich.add(new RichWord(s, dizionario.contains(s)));
+		//Questa richword viene creata con corretta= false ma se poi viene trovata all-interno del dizionario bastera' settare con setCorretta=true
+		RichWord newWord = new RichWord(s);
+			while(inizio!=fine) {
+				meta=(fine-inizio)/2;
+			
+				if(dizionario.get(meta).compareToIgnoreCase(s)<0) {//significa che la parola e' nella prima meta' allora meta diventa la fine
+					fine=meta;
+				}
+				
+				
+				if(dizionario.get(meta).compareToIgnoreCase(s)>0) {//significa che la parola e' nella seconda meta' allora meta diventa l'inizio
+					inizio=meta+1;
+				
+				}
+				
+				else{//significa che la parola e' stata trovata
+					newWord.setCorretta(true);
+				}					
+			}
+			
+		dizionarioRich.add(newWord);
+		
 		}
 		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
 		return dizionarioRich;
