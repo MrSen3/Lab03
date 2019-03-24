@@ -47,21 +47,31 @@ import java.util.ResourceBundle;
 
 	    @FXML
 	    void doClearText(ActionEvent event) {
-	    	txtToSpell.clear();
-	    	txtWrongWords.clear();
-	    	labelErrors.setText("");
-	    	labelTimeCheck.setText("");
-	    	model.removeDictionary();
+	    	
+	    	if (txtToSpell.getText().length()!=0 || txtWrongWords.getText().length()!=0) {
+	    		txtToSpell.clear();
+	    		txtWrongWords.clear();
+	    		labelErrors.setText("");
+	    		labelTimeCheck.setText("");
+	    		model.removeDictionary();
+	    		comboBoxLanguage.setValue(null);
+	    		
+	    	}
 	    }
 
 	    @FXML
 	    void doSpellCheck(ActionEvent event) {
 	    	
+	    	//Inizializzazione
 	    	int errori = 0;
+	    	List<String> listaParole = new ArrayList<String>();
+	    	List <String> paroleErrate = new ArrayList <String> ();
+	    	txtWrongWords.clear();
 	    	
 	    	//Primo passo=carico il dizionario scelto
-	    	if (comboBoxLanguage.getValue()!=null)
+	    	if (comboBoxLanguage.getValue()!=null) {
 	    		model.loadDictionary(comboBoxLanguage.getValue());
+	    	}
 	    	//Controllo sulla scelta della lingua
 	    	else {
 	    		txtToSpell.clear();
@@ -71,50 +81,49 @@ import java.util.ResourceBundle;
 	    		return;
 	    	}
 	    	
-	    	//Ripulisco la stringa scritta nel textfield e la splitto
+	    	//Leggo il testo scritto nel textfield, ripulisco la stringa e la splitto
 	    	String[] parole = txtToSpell.getText().trim().toLowerCase().replaceAll("[.,\\/#!$%\\^&\\*;:{}=\\-_'~()\\[\\]\"]", "").split(" ");
-	    	//CREO UN ARRAYLIST E UNA LINKEDLIST DI STRING
-	    	List<String> listaParole = new ArrayList();
-	    	
+	    	//Salvo il testo in una lista
 	    	for(String s: parole) {
 	    		s.replaceAll(" ", "");
 	    		if(!s.isEmpty()) {
 	    			listaParole.add(s);}
 	    	}
-	    	
+	    	//Controllo se c'è almeno una parola scritta
 	    	if (listaParole.size()==0) {
 	    		txtWrongWords.clear();
 	    		txtWrongWords.appendText("Scrivere delle parole separate da uno spazio nell'apposito spazio!\n");
 	    		return;
-	    	}	    	
+	    	}
 	    	
+	    	
+	    	//A questo punto posso fare lo spellcheck controllando i tempi
 	    	long start = System.nanoTime();
-	    	//LA PASSO AL MODEL LA CICLO E CREO UNA LISTA DI RICHWORD  CON PAROLA-RISULTATO DEL CONTAINS
+	    
+	    	//modo 1: spell check con contains()
 	    	//List <RichWord> listaRichWord=model.spellCheck(listaParole);
-	    	List <RichWord> listaRichWord=model.spellCheckLineare(listaParole);
-	    	List <String> paroleErrate = new ArrayList();
-	    	//Dopodichè stampi in wrongwords le parole false
+	    	
+	    	//modo 2: ricerca lineare
+	    	//List <RichWord> listaRichWord=model.spellCheckLineare(listaParole);
+	    	
+	    	//modo 3: ricerca dicotomica
+	    	List <RichWord> listaRichWord=model.spellCheckDicotomico(listaParole);
+	    	
+	    	long end = System.nanoTime();
+	    	
+	    	//Dopodichè stampo nel textArea WrongWords le parole false(quindi errate)
 	    	for(RichWord r: listaRichWord) {
 	    		if(!r.isCorretta()) {
 	    			paroleErrate.add(r.getWord());
 	    			errori++;
 	    		}
 	    	}
-	    	txtWrongWords.appendText("Le parole errate sono: \n" +paroleErrate.toString()+ "\n");
 	    	
-	    	//VALUTAZIONE DEI TEMPI
-	    	long end = System.nanoTime();
+	    	
+	    	txtWrongWords.appendText("Le parole errate sono: \n" +paroleErrate.toString()+ "\n");
 	    	
 	    	labelTimeCheck.setText("Spell check completed in " + (end - start) / 1E9 + " seconds");
 	    	labelErrors.setText("The text contains " +errori+ " errors");
-	    	
-	    	List<String> listaParoleLinked = new LinkedList();
-	    	
-	    	for(String s: parole) {
-	    		s.replaceAll(" ", "");
-	    		if(!s.isEmpty()) {
-	    			listaParoleLinked.add(s);}
-	    	}
 	    	
 	    }
 
@@ -133,6 +142,9 @@ import java.util.ResourceBundle;
 		public void setModel(Dictionary model) {
 			this.model=model;
 			comboBoxLanguage.getItems().addAll("English", "Italian");
+
+			labelErrors.setText("");
+			labelTimeCheck.setText("");
 		}
 	}
 

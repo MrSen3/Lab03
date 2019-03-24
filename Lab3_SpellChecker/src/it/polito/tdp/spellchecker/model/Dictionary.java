@@ -76,30 +76,31 @@ public class Dictionary {
 	
 	public List<RichWord> spellCheckDicotomico(List<String> testo){
 		List<RichWord> dizionarioRich = new ArrayList<RichWord>();
-		int inizio=0;
-		int fine=dizionario.size();
-		int meta=fine-inizio;		
-		
+		//List<RichWord> dizionarioRich = new LinkedList<RichWord>();
+		int grandezzaDizionario=dizionario.size();
+				
 		for(String s: testo) {
-		//Questa richword viene creata con corretta= false ma se poi viene trovata all-interno del dizionario bastera' settare con setCorretta=true
-		RichWord newWord = new RichWord(s);
-			while(inizio!=fine) {
-				meta=(fine-inizio)/2;
+			//Questa richword viene creata con corretta=false, ma se poi viene trovata all-interno del dizionario bastera' settare con setCorretta=true
+			RichWord newWord = new RichWord(s);
+			int inizio=0;
+			int fine=grandezzaDizionario;
+		
+				while(inizio!=fine) {
+					int meta=inizio+(fine-inizio)/2;
+					System.out.println("Inizio: "+inizio+" Metà: "+meta+" Fine: "+fine+"\n");
 			
-				if(dizionario.get(meta).compareToIgnoreCase(s)<0) {//significa che la parola e' nella prima meta' allora meta diventa la fine
-					fine=meta;
+					if(newWord.getWord().compareToIgnoreCase(dizionario.get(meta))<0) {//significa che la parola e' nella prima meta' allora meta diventa la fine
+						fine=meta;
+					}
+				
+					if(newWord.getWord().compareToIgnoreCase(dizionario.get(meta))>0) {//significa che la parola e' nella seconda meta' allora meta diventa l'inizio
+						inizio=meta+1;
+					}
+				
+					else{//significa che la parola e' stata trovata
+						newWord.setCorretta(true);
+					}					
 				}
-				
-				
-				if(dizionario.get(meta).compareToIgnoreCase(s)>0) {//significa che la parola e' nella seconda meta' allora meta diventa l'inizio
-					inizio=meta+1;
-				
-				}
-				
-				else{//significa che la parola e' stata trovata
-					newWord.setCorretta(true);
-				}					
-			}
 			
 		dizionarioRich.add(newWord);
 		

@@ -31,6 +31,12 @@ public class RichWord {
 	public void setCorretta(boolean corretta) {
 		this.corretta = corretta;
 	}
+
+	@Override
+	public String toString() {
+		return "word:" + word + ", corretta:" + corretta;
+}
+	
 	
 	
 
