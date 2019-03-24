@@ -82,7 +82,7 @@ public class Dictionary {
 		for(String s: testo) {
 			//Questa richword viene creata con corretta=false, ma se poi viene trovata all-interno del dizionario bastera' settare con setCorretta=true
 			RichWord newWord = new RichWord(s);
-			int inizio=0;
+			/*int inizio=0;
 			int fine=grandezzaDizionario;
 		
 				while(inizio!=fine) {
@@ -101,13 +101,34 @@ public class Dictionary {
 						newWord.setCorretta(true);
 					}					
 				}
+			*/
 			
-		dizionarioRich.add(newWord);
+		dizionarioRich.add(new RichWord(s, binarySearch(s.toLowerCase())));
 		
 		}
 		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
 		return dizionarioRich;
 	}
+	
+	
+	private boolean binarySearch(String stringaDaCercare) {
+		int inizio = 0;
+		int fine = dizionario.size();
+
+		while (inizio != fine) {
+			int meta = inizio + (fine - inizio) / 2;
+			System.out.println("Inizio: "+inizio+" Metà: "+meta+" Fine: "+fine+"\n");
+			if (stringaDaCercare.compareToIgnoreCase(dizionario.get(meta)) == 0) {
+				return true;
+			} else if (stringaDaCercare.compareToIgnoreCase(dizionario.get(meta)) > 0) {
+				inizio = meta + 1;
+			} else {
+				fine = meta;
+			}
+		}
+
+		return false;
+}
 	
 	public void removeDictionary() {
 		this.dizionario.clear();
