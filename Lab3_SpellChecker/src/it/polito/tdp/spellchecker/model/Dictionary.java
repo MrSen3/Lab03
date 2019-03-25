@@ -81,7 +81,9 @@ public class Dictionary {
 				
 		for(String s: testo) {
 			//Questa richword viene creata con corretta=false, ma se poi viene trovata all-interno del dizionario bastera' settare con setCorretta=true
-			RichWord newWord = new RichWord(s);
+			
+			//RichWord newWord = new RichWord(s);
+			
 			/*int inizio=0;
 			int fine=grandezzaDizionario;
 		
@@ -103,7 +105,7 @@ public class Dictionary {
 				}
 			*/
 			
-		dizionarioRich.add(new RichWord(s, binarySearch(s.toLowerCase())));
+		dizionarioRich.add(new RichWord(s, binarySearch(s.toLowerCase()))); //si può anche non mettere toLowerCase perchè in binarySearch uso compareToIgnoreCase che ignora se
 		
 		}
 		//A questo punto restituisce una lista di richword, da cui possiamo capire quali parole sono state scritte nel  testo e di queste quali nel modo corretto e quali no.
